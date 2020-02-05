@@ -34,6 +34,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import android.content.res.Configuration;
+import java.util.Locale;
+import java.lang.String;
 
 public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
 
@@ -160,15 +163,22 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         int minimumCompressSize = this.cameraOptions.getInt("minimumCompressSize");
         int quality = this.cameraOptions.getInt("quality");
         boolean isWeChatStyle = this.cameraOptions.getBoolean("isWeChatStyle");
-
+        boolean isSingleDirectReturn = this.cameraOptions.getBoolean("isSingleDirectReturn");
+        String locale = this.cameraOptions.hasKey("locale") ? this.cameraOptions.getString("locale"): null;
         int modeValue;
         if (imageCount == 1) {
             modeValue = 1;
         } else {
             modeValue = 2;
         }
-
         Activity currentActivity = getCurrentActivity();
+        if(locale != null){
+              Locale locale1 = new Locale(locale);
+              Locale.setDefault(locale1);
+              Configuration config = currentActivity.getResources().getConfiguration();
+              config.locale = locale1;
+              currentActivity.getResources().updateConfiguration(config,  currentActivity.getResources().getDisplayMetrics());
+        }
         PictureSelector.create(currentActivity)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .loadImageEngine(GlideEngine.createGlideEngine())
@@ -201,6 +211,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
                 .scaleEnabled(scaleEnabled)// 裁剪是否可放大缩小图片 true or false
                 .selectionMedia(selectList) // 当前已选中的图片 List
                 .isWeChatStyle(isWeChatStyle)
+                .isSingleDirectReturn(isSingleDirectReturn)
                 .forResult(PictureConfig.CHOOSE_REQUEST); //结果回调onActivityResult code
     }
 
@@ -220,8 +231,16 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         boolean scaleEnabled = this.cameraOptions.getBoolean("scaleEnabled");
         int minimumCompressSize = this.cameraOptions.getInt("minimumCompressSize");
         int quality = this.cameraOptions.getInt("quality");
-
+        boolean isSingleDirectReturn = this.cameraOptions.getBoolean("isSingleDirectReturn");
+        String locale = this.cameraOptions.hasKey("locale") ? this.cameraOptions.getString("locale"): null;
         Activity currentActivity = getCurrentActivity();
+        if(locale != null){
+          Locale locale1 = new Locale(locale);
+          Locale.setDefault(locale1);
+          Configuration config = currentActivity.getResources().getConfiguration();
+          config.locale = locale1;
+          currentActivity.getResources().updateConfiguration(config,  currentActivity.getResources().getDisplayMetrics());
+        }
         PictureSelector.create(currentActivity)
                 .openCamera(PictureMimeType.ofImage())
                 .loadImageEngine(GlideEngine.createGlideEngine())
@@ -241,6 +260,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
                 .synOrAsy(true)//同步true或异步false 压缩 默认同步
                 .rotateEnabled(rotateEnabled) // 裁剪是否可旋转图片 true or false
                 .scaleEnabled(scaleEnabled)// 裁剪是否可放大缩小图片 true or false
+                .isSingleDirectReturn(isSingleDirectReturn)
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
 
@@ -253,7 +273,16 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         int MinSecond = this.cameraOptions.getInt("MinSecond");
         int recordVideoSecond = this.cameraOptions.getInt("recordVideoSecond");
         int imageCount = this.cameraOptions.getInt("imageCount");
+        boolean isSingleDirectReturn = this.cameraOptions.getBoolean("isSingleDirectReturn");
+        String locale = this.cameraOptions.hasKey("locale") ? this.cameraOptions.getString("locale"): null;
         Activity currentActivity = getCurrentActivity();
+        if(locale != null){
+          Locale locale1 = new Locale(locale);
+          Locale.setDefault(locale1);
+          Configuration config = currentActivity.getResources().getConfiguration();
+          config.locale = locale1;
+          currentActivity.getResources().updateConfiguration(config,  currentActivity.getResources().getDisplayMetrics());
+        }
         PictureSelector.create(currentActivity)
                 .openCamera(PictureMimeType.ofVideo())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .loadImageEngine(GlideEngine.createGlideEngine())
@@ -268,6 +297,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
                 .videoMaxSecond(MaxSecond)// 显示多少秒以内的视频or音频也可适用 int
                 .videoMinSecond(MinSecond)// 显示多少秒以内的视频or音频也可适用 int
                 .recordVideoSecond(recordVideoSecond)//视频秒数录制 默认60s int
+                .isSingleDirectReturn(isSingleDirectReturn)
                 .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
     }
 
@@ -280,7 +310,16 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         int MinSecond = this.cameraOptions.getInt("MinSecond");
         int recordVideoSecond = this.cameraOptions.getInt("recordVideoSecond");
         int videoCount = this.cameraOptions.getInt("videoCount");
+        boolean isSingleDirectReturn = this.cameraOptions.getBoolean("isSingleDirectReturn");
+        String locale = this.cameraOptions.hasKey("locale") ? this.cameraOptions.getString("locale"): null;
         Activity currentActivity = getCurrentActivity();
+        if(locale != null){
+            Locale locale1 = new Locale(locale);
+            Locale.setDefault(locale1);
+            Configuration config = currentActivity.getResources().getConfiguration();
+            config.locale = locale1;
+            currentActivity.getResources().updateConfiguration(config,  currentActivity.getResources().getDisplayMetrics());
+        }
         PictureSelector.create(currentActivity)
                 .openGallery(PictureMimeType.ofVideo())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .selectionMedia(selectList) // 当前已选中的视频 List
@@ -294,7 +333,8 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
                 .videoQuality(quality)// 视频录制质量 0 or 1 int
                 .videoMaxSecond(MaxSecond)// 显示多少秒以内的视频or音频也可适用 int
                 .videoMinSecond(MinSecond)// 显示多少秒以内的视频or音频也可适用 int
-                .recordVideoSecond(recordVideoSecond)//视频秒数录制 默认60s int
+                .recordVideoSecond(recordVideoSecond)//视频秒数录制 默认60s int\
+                .isSingleDirectReturn(isSingleDirectReturn)
                 .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
     }
 
@@ -436,7 +476,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
      * 取消选择时触发
      */
     private void invokeError(int resultCode) {
-        String message = "取消";
+        String message = "Error";
         if (resultCode != 0) {
             message = String.valueOf(resultCode);
         }
