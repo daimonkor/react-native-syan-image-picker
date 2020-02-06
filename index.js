@@ -140,6 +140,14 @@ export default {
         RNSyanImagePicker.removeAllPhoto()
     },
 
+    openMediaPicker(options, callback) {
+        const optionObj = {
+            ...defaultOptions,
+            ...options
+        };
+        RNSyanImagePicker.openMediaPicker(optionObj, callback)
+    },
+
     openVideoPicker(options, callback) {
         const optionObj = {
             ...defaultOptions,
