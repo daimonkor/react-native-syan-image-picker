@@ -173,6 +173,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         boolean isWeChatStyle = this.cameraOptions.getBoolean("isWeChatStyle");
         boolean isSingleDirectReturn = this.cameraOptions.getBoolean("isSingleDirectReturn");
         String locale = this.cameraOptions.hasKey("locale") ? this.cameraOptions.getString("locale"): null;
+        boolean previewVideo = this.cameraOptions.hasKey("previewVideo") ? this.cameraOptions.getBoolean("previewVideo"): false;
         int modeValue;
         if (imageCount == 1) {
             modeValue = 1;
@@ -188,7 +189,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
               currentActivity.getResources().updateConfiguration(config,  currentActivity.getResources().getDisplayMetrics());
         }
         PictureSelector.create(currentActivity)
-                .openGallery(PictureMimeType.ofAll())
+                .openGallery(previewVideo ? PictureMimeType.ofAll(): PictureMimeType.ofImage())
                 .loadImageEngine(GlideEngine.createGlideEngine())
                 .selectionMedia(selectList)
                 .isCamera(isCamera)// 是否显示拍照按钮 true or false
@@ -199,7 +200,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
                 .imageSpanCount(4)// 每行显示个数 int
                 .selectionMode(modeValue)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                 .previewImage(true)// 是否可预览图片 true or false
-                .previewVideo(true)// 是否可预览视频 true or false// 当前已选中的图片 List
+                .previewVideo(previewVideo)// 是否可预览视频 true or false// 当前已选中的图片 List
                 .rotateEnabled(rotateEnabled) // 裁剪是否可旋转图片 true or false
                 .scaleEnabled(scaleEnabled)// 裁剪是否可放大缩小图片 true or false
                 .videoQuality(quality)// 视频录制质量 0 or 1 int
